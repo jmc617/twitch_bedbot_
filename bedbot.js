@@ -3,7 +3,7 @@ const tmi = require('tmi.js');
 const msgLimit = 5;
 let msgCount = 0;
 const insertedMsg = '...in bed ;-)'
-const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/gm
+const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
 //storage for db user info
 let channelsToJoin = [];
 let ignoreList = [];
@@ -26,7 +26,7 @@ const client = new tmi.Client({
 		password: token
 	},
   //spread channelListForClient in channels
-	channels: [ 'jess617', 'shellieface' ]
+	channels: [ 'jesskidding617', 'shellieface' ]
 });
 
 //pull all channels from api and put them in channelsToJoin with name/interval
