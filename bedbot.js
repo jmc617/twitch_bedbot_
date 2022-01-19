@@ -34,6 +34,13 @@ const client = new tmi.Client({
 
 client.connect().catch(console.error);
 
+// //ping test after connected to twitch
+// client.on('connected', () => setTimeout(pingLoop, 200));
+// async function pingLoop() {
+//         await client.ping().then(console.log);
+//         setTimeout(pingLoop, 200);
+// }
+
 client.on('message', (channel, tags, message, self) => {
 //TODO: ignore messages with urls (might trigger moderation bots)
 // test and regex info: https://careerkarma.com/blog/javascript-string-contains/ https://www.cluemediator.com/find-urls-in-string-and-make-a-link-using-javascript
