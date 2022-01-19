@@ -37,6 +37,9 @@ const client = new tmi.Client({
 //pull ignore list from api and add usernames them to ignoreList
 
 client.connect().catch(console.error);
+client.on('connected', () => {
+  console.log('Bedbot is connected to Twitch')
+});
 
 // //ping test after connected to twitch
 // client.on('connected', () => setTimeout(pingLoop, 200));
