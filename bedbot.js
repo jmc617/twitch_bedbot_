@@ -1,6 +1,6 @@
 require('dotenv').config()
 const tmi = require('tmi.js');
-const msgLimit = 5;
+const msgLimit = 30;
 let msgCount = 0;
 const insertedMsg = '...in bed ;-)'
 const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
@@ -18,11 +18,12 @@ const botUsername = process.env.TWITCH_BOT_USERNAME
 const token = process.env.TWITCH_OAUTH_TOKEN
 //twitch client info
 const client = new tmi.Client({
+  // //logs events for debugging
+  // options: { 
+  //   debug: true 
+  // },
   connection: {
     reconnect: true
-  },
-  options: {
-    debug: true
   },
   identity: {
 		username: botUsername,
@@ -54,11 +55,11 @@ client.on('message', (channel, tags, message, self) => {
 
     if ( message.toLowerCase() === 'bedbot no!' || message.toLowerCase() === '@bedbot_ no!' ) {
 
-      client.say(channel, `no regrets ;-)`)
+      client.say(channel, `no regrets ;-)`).catch(console.error);
 
     } else if ( message.toLowerCase() === 'bedbot yes!' || message.toLowerCase() === '@bedbot_ yes!' ) {
 
-      client.say(channel, `just doing my job ;-)`)  
+      client.say(channel, `just doing my job ;-)`).catch(console.error);  
 
     } else if ( message === '!bed join' && channel === botUsername ) {
       //join channel of person using the command
@@ -67,7 +68,7 @@ client.on('message', (channel, tags, message, self) => {
       client.join(tags.username)
         .then((data) => {
           // data returns [channel]
-          client.say(channel, `I have joined your channel, ${tags.username}`) 
+          client.say(channel, `I have joined your channel, ${tags.username}`).catch(console.error); 
         }).catch((err) => {
           console.log(err)
         }); 
@@ -79,7 +80,7 @@ client.on('message', (channel, tags, message, self) => {
       client.part(tags.username)
         .then((data) => {
           // data returns [channel]
-          client.say(channel, `I have left your channel, ${tags.username}`) 
+          client.say(channel, `I have left your channel, ${tags.username}`).catch(console.error); 
         }).catch((err) => {
           console.log(err)
         }); 
@@ -92,7 +93,7 @@ client.on('message', (channel, tags, message, self) => {
      
     } else if ( msgCount >= msgLimit ) {
      
-      client.say(channel, `${message} ${insertedMsg}`)
+      client.say(channel, `${message} ${insertedMsg}`).catch(console.error);
       msgCount = 0;
       
     } else {
