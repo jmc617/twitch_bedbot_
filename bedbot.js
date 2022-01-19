@@ -21,6 +21,9 @@ const client = new tmi.Client({
   connection: {
     reconnect: true
   },
+  options: {
+    debug: true
+  },
   identity: {
 		username: botUsername,
 		password: token
