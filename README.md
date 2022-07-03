@@ -26,7 +26,7 @@ npm init
 ```
 npm i tmi.js dotenv
 ```
-4. Create .env file with Twitch bot credentials (``TWITCH_BOT_USERNAME`` and ``TWITCH_OAUTH_TOKEN``) more information can be found here: [Twitch Developer Authentication docs](https://dev.twitch.tv/docs/authentication)
+4. Create twitch account for your bot and then create the .env file with Twitch bot credentials (``TWITCH_BOT_USERNAME`` and ``TWITCH_OAUTH_TOKEN``) more information can be found here: [Twitch Developer Authentication docs](https://dev.twitch.tv/docs/authentication)
 5. Launch app on localhost
 ```
 npm start
