@@ -4,9 +4,14 @@ const msgLimit = 30;
 let msgCount = 0;
 const insertedMsg = '...in bed ;-)'
 const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
+let paused = false;
+let ignoreList = [];
+//TODO:6/20 
+//implement pause with default interval + minute option
+//implement local and db ignore list
+
 //storage for db user info
 let channelsToJoin = [];
-let ignoreList = [];
 let channelListForClient = [];
 
 //pull all channels from api and put them in channelsToJoin with name/interval
