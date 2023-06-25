@@ -28,7 +28,7 @@ const client = new tmi.Client({
 		username: botUsername,
 		password: token
 	},
-	channels: [ 'jesskidding617'
+	channels: [ 'jesskidding617', 'bedbot_'
   // , 'shellieface' 
 ]
 });
@@ -46,8 +46,17 @@ client.on('connected', () => {
 //         setTimeout(pingLoop, 200);
 // }
 
+//if raid occurs, pause bedbot for 5 minutes
+client.on("raided", (channel, username, viewers) => {
+  client.say(channel, `welcome raiders`).catch(console.error);
+  console.log("raid")
+});
+
 client.on('message', (channel, tags, message, self) => {
 // test and regex info: https://careerkarma.com/blog/javascript-string-contains/ https://www.cluemediator.com/find-urls-in-string-and-make-a-link-using-javascript
+
+  
+  
 
   //if the message is not from the bot, is not longer than 140 characters and does not contain a url...
   if( !self && message.length < 140 && !linkRegex.test(message)) {

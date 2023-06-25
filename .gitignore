@@ -1,1 +1,4 @@
+# Environmental Variables
 .env
+# Dependency directory
+node_modules/
