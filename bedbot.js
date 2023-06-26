@@ -1,15 +1,19 @@
 require('dotenv').config()
 const tmi = require('tmi.js');
-const msgLimit = 2;
-let msgCount = 0;
-const insertedMsg = '...in bed ;-)'
+const sleep = require('sleep-promise');
+
+const msgLimit = 35;
+let msgCount = 1;
+const insertedMsg = '...in bed shelli7Smirk'
 const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
 let paused = false;
+const sleepInt = 300000;
 let ignoreList = [];
-//TODO:6/24 
+//TODO:
 //implement pause command
 //raid pause 5 mins
 //implement local and db ignore list
+//custom bit reaction
 // emotes? shelli7Brows shelli7Wink shelli7Smirk
 
 //twitch credentials
@@ -30,7 +34,7 @@ const client = new tmi.Client({
 	},
 	channels: [ 'jesskidding617', 'bedbot_'
   // , 'shellieface' 
-]
+  ]
 });
 
 
@@ -48,8 +52,16 @@ client.on('connected', () => {
 
 //if raid occurs, pause bedbot for 5 minutes
 client.on("raided", (channel, username, viewers) => {
-  client.say(channel, `welcome raiders`).catch(console.error);
   console.log("raid")
+  // client.say(channel, `brb ;-)`).catch(console.error);
+  paused = true;
+  //set time for 5 minutes bc multiple raids, don't want multiple time additions
+  sleep(sleepInt).then(()=> {
+    paused = false;
+    console.log(`timer ended`);
+    // client.say(channel, `I'm back! ;-)`).catch(console.error);
+  });
+  
 });
 
 client.on('message', (channel, tags, message, self) => {
@@ -58,23 +70,23 @@ client.on('message', (channel, tags, message, self) => {
   
   
 
-  //if the message is not from the bot, is not longer than 140 characters and does not contain a url...
-  if( !self && message.length < 140 && !linkRegex.test(message)) {
+  //if the bot is not paused, message is not from the bot, is not longer than 140 characters and does not contain a url...
+  if( !paused && !self && message.length < 140 && !linkRegex.test(message)) {
 
     if ( message.toLowerCase() === 'bedbot no!' || message.toLowerCase() === '@bedbot_ no!' ) {
 
       client.say(channel, `no regrets ;-)`).catch(console.error);
-      console.log('bed no command detected')
+      // console.log('bed no command detected')
 
     } else if ( message.toLowerCase() === 'bedbot yes!' || message.toLowerCase() === '@bedbot_ yes!' ) {
 
       client.say(channel, `just doing my job ;-)`).catch(console.error);
-      console.log('bed yes command detected') 
+      // console.log('bed yes command detected') 
 
     } else if ( msgCount >= msgLimit ) {
      
       client.say(channel, `${message} ${insertedMsg}`).catch(console.error);
-      msgCount = 0;
+      msgCount = 1;
       
     } else {
       
@@ -84,7 +96,7 @@ client.on('message', (channel, tags, message, self) => {
   }
 	
   //logs chat messages
-  console.log(`${channel}'s Chat ${msgCount} ${tags['display-name']}: ${message}`);
+  // console.log(`${channel}'s Chat ${msgCount} ${tags['display-name']}: ${message}`);
 
 
 });
