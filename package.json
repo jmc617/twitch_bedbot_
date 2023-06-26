@@ -1,0 +1,17 @@
+{
+  "name": "twitch_bedbot_",
+  "version": "1.0.0",
+  "description": "[Twitch](https://www.twitch.tv/) chatbot client created using [Tmi.js](https://tmijs.com/). Listens to chat and re-sends user messages with a humorous ending at set intervals. \r Created as a gift for [Shellieface](https://www.twitch.tv/shellieface). Will be updated to use the [bedbot API](https://github.com/jmc617/bedbot-api) to save user data and join multiple chat streams.",
+  "main": "bedbot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bedbot.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "sleep-promise": "^9.1.0",
+    "tmi.js": "^1.8.5"
+  }
+}
