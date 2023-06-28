@@ -7,7 +7,8 @@ let msgCount = 1;
 const insertedMsg = '...in bed shelli7Smirk'
 const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
 let paused = false;
-const sleepInt = 300000;
+// const sleepInt = 300000;
+const sleepInt = 15000;
 let ignoreList = [];
 //TODO:
 //implement pause command
@@ -73,7 +74,18 @@ client.on('message', (channel, tags, message, self) => {
   //if the bot is not paused, message is not from the bot, is not longer than 140 characters and does not contain a url...
   if( !paused && !self && message.length < 140 && !linkRegex.test(message)) {
 
-    if ( message.toLowerCase() === 'bedbot no!' || message.toLowerCase() === '@bedbot_ no!' ) {
+    if ( message.toLowerCase() === '!pause' ) {
+
+      client.say(channel, `be right back shelli7Smirk`).catch(console.error);
+      paused = true;
+      console.log('paused');
+      sleep(sleepInt).then(()=> {
+        paused = false;
+        console.log(`timer ended`);
+        client.say(channel, `I'm back! shelli7Smirk`).catch(console.error);
+      });
+
+    } else if ( message.toLowerCase() === 'bedbot no!' || message.toLowerCase() === '@bedbot_ no!' ) {
 
       client.say(channel, `no regrets ;-)`).catch(console.error);
       // console.log('bed no command detected')
