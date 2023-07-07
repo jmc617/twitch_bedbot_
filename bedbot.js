@@ -7,15 +7,14 @@ let msgCount = 1;
 const insertedMsg = '...in bed shelli7Smirk'
 const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
 let paused = false;
-// const sleepInt = 300000;
-const sleepInt = 15000;
+//5 minutes pause
+const raidSleepInt = 300000;
+//test timer
+// const raidSleepInt = 15000;
+const pauseSleepInt = 300000;
 let ignoreList = [];
-//TODO:
-//implement pause command
-//raid pause 5 mins
-//implement local and db ignore list
-//custom bit reaction
-// emotes? shelli7Brows shelli7Wink shelli7Smirk
+
+// emotes shelli7Brows shelli7Wink shelli7Smirk
 
 //twitch credentials
 const botUsername = process.env.TWITCH_BOT_USERNAME
@@ -53,14 +52,13 @@ client.on('connected', () => {
 
 //if raid occurs, pause bedbot for 5 minutes
 client.on("raided", (channel, username, viewers) => {
+  
   console.log("raid")
-  // client.say(channel, `brb ;-)`).catch(console.error);
   paused = true;
-  //set time for 5 minutes bc multiple raids, don't want multiple time additions
-  sleep(sleepInt).then(()=> {
+  sleep(raidSleepInt).then(()=> {
     paused = false;
     console.log(`timer ended`);
-    // client.say(channel, `I'm back! ;-)`).catch(console.error);
+
   });
   
 });
@@ -76,10 +74,9 @@ client.on('message', (channel, tags, message, self) => {
 
     if ( message.toLowerCase() === '!pause' ) {
 
-      client.say(channel, `be right back shelli7Smirk`).catch(console.error);
       paused = true;
       console.log('paused');
-      sleep(sleepInt).then(()=> {
+      sleep(pauseSleepInt).then(()=> {
         paused = false;
         console.log(`timer ended`);
         client.say(channel, `I'm back! shelli7Smirk`).catch(console.error);
