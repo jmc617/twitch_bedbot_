@@ -6,12 +6,14 @@ const msgLimit = 35;
 let msgCount = 1;
 const insertedMsg = '...in bed shelli7Smirk'
 const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
+const bedbotRegex = /(.*bedbot.*)/ig
 let paused = false;
 //5 minutes pause
 const raidSleepInt = 300000;
-//test timer
-// const raidSleepInt = 15000;
 const pauseSleepInt = 300000;
+
+let specialReactionPaused = false;
+const specialReactionInt = 300000;
 let ignoreList = [];
 
 // emotes shelli7Brows shelli7Wink shelli7Smirk
@@ -80,6 +82,16 @@ client.on('message', (channel, tags, message, self) => {
         paused = false;
         console.log(`timer ended`);
         client.say(channel, `I'm back! shelli7Smirk`).catch(console.error);
+      });
+
+    } else if (tags['display-name'] === 'jesskidding617' && specialReactionPaused === false && bedbotRegex.test(message)) {
+      console.log('S detected')
+      client.say(channel, `Hi Sam, shelli7Shy I love you`).catch(console.error);
+      specialReactionPaused = true;
+      sleep(specialReactionInt).then(()=> {
+        specialReactionPaused = false;
+        console.log(`timer ended, ready for more special reactions`);
+        
       });
 
     } else if ( message.toLowerCase() === 'bedbot no!' || message.toLowerCase() === '@bedbot_ no!' ) {
