@@ -35,7 +35,7 @@ const client = new tmi.Client({
 		password: token
 	},
 	channels: [ 'jesskidding617', 'bedbot_'
-  // , 'shellieface' 
+  , 'shellieface' 
   ]
 });
 
@@ -63,6 +63,15 @@ client.on("raided", (channel, username, viewers) => {
 
   });
   
+});
+
+client.on("cheer", (channel, tags, message) => {
+  console.log(`bits sent`);
+  if (tags.bits === '122'){
+    console.log(`122 "I want you" bitties recieved!`)
+    client.say(channel, `/me smacks @${tags['display-name']}'s booty shelli7Smirk`).catch(console.error);
+
+  }
 });
 
 client.on('message', (channel, tags, message, self) => {
