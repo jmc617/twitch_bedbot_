@@ -52,6 +52,14 @@ client.on('connected', () => {
 //         setTimeout(pingLoop, 200);
 // }
 
+//TODO: create, delete, and read actions for ignore db
+//add user to ignore array and database
+//remove user from array and database
+//on startup, retrieve list of ignored users and insert into ignore array
+//in message listener, if !ignore, then add to list
+// if !bedme remove from list
+//add condition that message sender is not in array
+
 //if raid occurs, pause bedbot for 5 minutes
 client.on("raided", (channel, username, viewers) => {
   
@@ -74,6 +82,10 @@ client.on("cheer", (channel, tags, message) => {
   }
 });
 
+client.on("messagedeleted", (channel, username, deletedMessage, userstate) => {
+  client.say(channel, `ERROR 406: NOT ACCEPTABLE`).catch(console.error);
+});
+
 client.on('message', (channel, tags, message, self) => {
 // test and regex info: https://careerkarma.com/blog/javascript-string-contains/ https://www.cluemediator.com/find-urls-in-string-and-make-a-link-using-javascript
 
@@ -93,7 +105,7 @@ client.on('message', (channel, tags, message, self) => {
         client.say(channel, `I'm back! shelli7Smirk`).catch(console.error);
       });
 
-    } else if (tags['display-name'] === 'jesskidding617' && specialReactionPaused === false && bedbotRegex.test(message)) {
+    } else if (tags['display-name'] === 'SamateurHour' && specialReactionPaused === false && bedbotRegex.test(message)) {
       console.log('S detected')
       client.say(channel, `Hi Sam, shelli7Shy I love you`).catch(console.error);
       specialReactionPaused = true;
