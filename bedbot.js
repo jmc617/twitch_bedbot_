@@ -1,9 +1,10 @@
 require('dotenv').config()
 const tmi = require('tmi.js');
 const sleep = require('sleep-promise');
-
-const msgLimit = 35;
-let msgCount = 1;
+//35
+let msgLimit = 35;
+let msgCount = 0;
+const msgLimitRangeArr = [35,36,37,38,39,40];
 const insertedMsg = '...in bed shelli7Smirk'
 const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
 const bedbotRegex = /(.*bedbot.*)/ig
@@ -59,6 +60,13 @@ client.on('connected', () => {
 //in message listener, if !ignore, then add to list
 // if !bedme remove from list
 //add condition that message sender is not in array
+
+function random(options)
+{
+  
+return options[Math.floor(Math.random()*options.length)];
+     
+}
 
 //if raid occurs, pause bedbot for 5 minutes
 client.on("raided", (channel, username, viewers) => {
@@ -128,7 +136,10 @@ client.on('message', (channel, tags, message, self) => {
     } else if ( msgCount >= msgLimit ) {
      
       client.say(channel, `${message} ${insertedMsg}`).catch(console.error);
-      msgCount = 1;
+      msgCount = 0;
+      //set msg limit to random num in array to prevent folks from spamming/counting
+      msgLimit = random(msgLimitRangeArr);
+
       
     } else {
       
