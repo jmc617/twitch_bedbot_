@@ -1,6 +1,10 @@
 require('dotenv').config()
 const tmi = require('tmi.js');
 const sleep = require('sleep-promise');
+
+const initializeApp = require('firebase/app');
+const initializeFirestore = require('firebase/firestore');
+
 //35
 let msgLimit = 35;
 let msgCount = 0;
@@ -17,7 +21,28 @@ let specialReactionPaused = false;
 const specialReactionInt = 300000;
 let ignoreList = [];
 
+const firebaseApp = initializeApp({
+  apiKey: "AIzaSyAPh4N9kRH9ggF-mewMKlbJxvxjppUfwcY",
+  authDomain: "twitch-bedbot.firebaseapp.com",
+  projectId: "twitch-bedbot",
+  storageBucket: "twitch-bedbot.appspot.com",
+  messagingSenderId: "884871580465",
+  appId: "1:884871580465:web:2fd1a613d0582d381dbe10",
+  measurementId: "G-PR5WDYB0PN"
+})
+
+const firestore = initializeFirestore.getFirestore();
+
 // emotes shelli7Brows shelli7Wink shelli7Smirk
+//firestore db CRUD
+async function addToIgnoreList (name){
+  const docRef = db.collection('users').doc('testDoc');
+
+  await docRef.set({
+  username: 'LeaveMeAlone',
+});
+}
+
 
 //twitch credentials
 const botUsername = process.env.TWITCH_BOT_USERNAME
