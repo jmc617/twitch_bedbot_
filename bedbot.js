@@ -1,9 +1,8 @@
 require('dotenv').config()
 const tmi = require('tmi.js');
 const sleep = require('sleep-promise');
-
-const initializeApp = require('firebase/app');
-const initializeFirestore = require('firebase/firestore');
+const { initializeApp } = require('firebase/app')
+const { collection, getFirestore, addDoc } = require('firebase/firestore');
 
 //35
 let msgLimit = 35;
@@ -31,17 +30,27 @@ const firebaseApp = initializeApp({
   measurementId: "G-PR5WDYB0PN"
 })
 
-const firestore = initializeFirestore.getFirestore();
+const db = getFirestore(firebaseApp);
+const dbRef = collection(db, "users"); 
+
+async function addUsertoIgnoreList(name){
+
+  let data = {
+    name: name
+  } 
+
+  addDoc(dbRef, data)
+  .then(docRef => {
+    console.log(`Document #${docRef.id} has been added successfully`);
+  })
+  .catch(error => {
+    console.log(error);
+  })
+};
+
+addUsertoIgnoreList('Jess');
 
 // emotes shelli7Brows shelli7Wink shelli7Smirk
-//firestore db CRUD
-async function addToIgnoreList (name){
-  const docRef = db.collection('users').doc('testDoc');
-
-  await docRef.set({
-  username: 'LeaveMeAlone',
-});
-}
 
 
 //twitch credentials
@@ -166,6 +175,10 @@ client.on('message', (channel, tags, message, self) => {
       msgLimit = random(msgLimitRangeArr);
 
       
+    } else if (message.toLowerCase() === '!ignore' ) {
+
+      addToIgnoreList('Jessica1');
+
     } else {
       
       msgCount++;
