@@ -1,8 +1,9 @@
 require('dotenv').config()
 const tmi = require('tmi.js');
 const sleep = require('sleep-promise');
-const { initializeApp } = require('firebase/app')
-const { collection, getFirestore, addDoc } = require('firebase/firestore');
+const fs = require('./firestore');
+const r = require('./random');
+
 
 //35
 let msgLimit = 35;
@@ -19,39 +20,6 @@ const pauseSleepInt = 300000;
 let specialReactionPaused = false;
 const specialReactionInt = 300000;
 let ignoreList = [];
-
-const firebaseApp = initializeApp({
-  apiKey: "AIzaSyAPh4N9kRH9ggF-mewMKlbJxvxjppUfwcY",
-  authDomain: "twitch-bedbot.firebaseapp.com",
-  projectId: "twitch-bedbot",
-  storageBucket: "twitch-bedbot.appspot.com",
-  messagingSenderId: "884871580465",
-  appId: "1:884871580465:web:2fd1a613d0582d381dbe10",
-  measurementId: "G-PR5WDYB0PN"
-})
-
-const db = getFirestore(firebaseApp);
-const dbRef = collection(db, "users"); 
-
-async function addUsertoIgnoreList(name){
-
-  let data = {
-    name: name
-  } 
-
-  addDoc(dbRef, data)
-  .then(docRef => {
-    console.log(`Document #${docRef.id} has been added successfully`);
-  })
-  .catch(error => {
-    console.log(error);
-  })
-};
-
-addUsertoIgnoreList('Jess');
-
-// emotes shelli7Brows shelli7Wink shelli7Smirk
-
 
 //twitch credentials
 const botUsername = process.env.TWITCH_BOT_USERNAME
@@ -95,13 +63,6 @@ client.on('connected', () => {
 // if !bedme remove from list
 //add condition that message sender is not in array
 
-function random(options)
-{
-  
-return options[Math.floor(Math.random()*options.length)];
-     
-}
-
 //if raid occurs, pause bedbot for 5 minutes
 client.on("raided", (channel, username, viewers) => {
   
@@ -131,7 +92,8 @@ client.on("messagedeleted", (channel, username, deletedMessage, userstate) => {
 client.on('message', (channel, tags, message, self) => {
 // test and regex info: https://careerkarma.com/blog/javascript-string-contains/ https://www.cluemediator.com/find-urls-in-string-and-make-a-link-using-javascript
 
-  
+  //if ignored or if paused or message too long or has a link, return?
+
   
 
   //if the bot is not paused, message is not from the bot, is not longer than 140 characters and does not contain a url...
@@ -172,12 +134,12 @@ client.on('message', (channel, tags, message, self) => {
       client.say(channel, `${message} ${insertedMsg}`).catch(console.error);
       msgCount = 0;
       //set msg limit to random num in array to prevent folks from spamming/counting
-      msgLimit = random(msgLimitRangeArr);
+      msgLimit = r.random(msgLimitRangeArr);
 
       
     } else if (message.toLowerCase() === '!ignore' ) {
 
-      addToIgnoreList('Jessica1');
+      fs.addUsertoIgnoreList('why ignore?');
 
     } else {
       
