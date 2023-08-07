@@ -1,5 +1,5 @@
 const { initializeApp } = require('firebase/app')
-const { collection, getFirestore, addDoc } = require('firebase/firestore');
+const { collection, getFirestore, setDoc, doc, deleteDoc } = require('firebase/firestore');
 
 const firebaseApp = initializeApp({
     apiKey: "AIzaSyAPh4N9kRH9ggF-mewMKlbJxvxjppUfwcY",
@@ -12,20 +12,44 @@ const firebaseApp = initializeApp({
   })
   
   const db = getFirestore(firebaseApp);
-  const dbRef = collection(db, "users"); 
+  
+exports.addUsertoIgnoreList = async function (name, id, listName) {
 
+  const ignoreList = listName;
 
-exports.addUsertoIgnoreList = async function (name) {
-    let data = {
-        //add user-id
-        name: name
-      } 
-    
-      addDoc(dbRef, data)
-      .then(docRef => {
-        console.log(`Document #${docRef.id} has been added successfully`);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+  const docRef = doc(db, "users", id);
+
+  let data = {
+    name: name
+  }
+  
+  setDoc(docRef, data)
+    .then((docRef) => {
+      console.log(`Document has been added successfully`);
+
+      ignoreList.push({
+        id: parseInt(id),
+        username: name         
+      });
+
+      console.log(ignoreList);
+    })
+    .catch(error => {
+      console.log(error);
+    })
   };
+
+  // exports.removeUserFromIgnoreList = async function (name, listname) {
+    
+  //   const userTobeRemoved = listname.find(u => u.username === name);
+
+  //     console.log(userTobeRemoved.id, userTobeRemoved.username)
+    
+  //     addDoc(dbRef, data)
+  //     .then(docRef => {
+  //       console.log(`Document #${docRef.id} has been added successfully`);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     })
+  // };

@@ -2,10 +2,8 @@ require('dotenv').config()
 const tmi = require('tmi.js');
 const sleep = require('sleep-promise');
 const fs = require('./firestore');
-const r = require('./random');
+const r = require('./utils');
 
-
-//35
 let msgLimit = 35;
 let msgCount = 0;
 const msgLimitRangeArr = [35,36,37,38,39,40];
@@ -139,7 +137,18 @@ client.on('message', (channel, tags, message, self) => {
       
     } else if (message.toLowerCase() === '!ignore' ) {
 
-      fs.addUsertoIgnoreList('why ignore?');
+      user = tags['display-name']
+      id = tags['user-id']
+
+      fs.addUsertoIgnoreList(user, id, ignoreList);
+
+    } else if (message.toLowerCase() === '!unignore' ) {
+
+      // user = tags['display-name']
+
+      // fs.removeUserFromIgnoreList(user)
+      // fs.addUsertoIgnoreList(user);
+      // console.log(ignoreList);
 
     } else {
       
