@@ -1,5 +1,5 @@
 const { initializeApp } = require('firebase/app')
-const { collection, getFirestore, setDoc, doc, deleteDoc } = require('firebase/firestore');
+const { getFirestore, setDoc, doc, deleteDoc } = require('firebase/firestore');
 
 const firebaseApp = initializeApp({
     apiKey: "AIzaSyAPh4N9kRH9ggF-mewMKlbJxvxjppUfwcY",
@@ -11,7 +11,7 @@ const firebaseApp = initializeApp({
     measurementId: "G-PR5WDYB0PN"
   })
   
-  const db = getFirestore(firebaseApp);
+const db = getFirestore(firebaseApp);
   
 exports.addUsertoIgnoreList = async function (name, id, listName) {
 
@@ -25,7 +25,7 @@ exports.addUsertoIgnoreList = async function (name, id, listName) {
   
   setDoc(docRef, data)
     .then((docRef) => {
-      console.log(`Document has been added successfully`);
+      console.log(`Document has been added successfully.`);
 
       ignoreList.push({
         id: parseInt(id),
@@ -39,17 +39,17 @@ exports.addUsertoIgnoreList = async function (name, id, listName) {
     })
   };
 
-  // exports.removeUserFromIgnoreList = async function (name, listname) {
+  exports.removeUserFromIgnoreList = async function ( id ) {
     
-  //   const userTobeRemoved = listname.find(u => u.username === name);
+    const docRef = doc(db, "users", id);
+    
+    deleteDoc(docRef)
+    .then(() => {
 
-  //     console.log(userTobeRemoved.id, userTobeRemoved.username)
-    
-  //     addDoc(dbRef, data)
-  //     .then(docRef => {
-  //       console.log(`Document #${docRef.id} has been added successfully`);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     })
-  // };
+      console.log(`Document has been deleted successfully.`);
+
+    })
+    .catch(error => {
+        console.log(error);
+    })
+  };

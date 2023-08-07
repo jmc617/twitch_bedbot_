@@ -140,15 +140,32 @@ client.on('message', (channel, tags, message, self) => {
       user = tags['display-name']
       id = tags['user-id']
 
+      console.log(ignoreList, "before")
+
       fs.addUsertoIgnoreList(user, id, ignoreList);
+
+      //add confimation msg
 
     } else if (message.toLowerCase() === '!unignore' ) {
 
-      // user = tags['display-name']
+      id = tags['user-id']
+      
+      fs.removeUserFromIgnoreList( id )
+      .then(() => {
 
-      // fs.removeUserFromIgnoreList(user)
-      // fs.addUsertoIgnoreList(user);
-      // console.log(ignoreList);
+        const newIgnoreList = ignoreList.filter(user => {
+          return user.id !== parseInt(id) ;
+        });
+
+        ignoreList = newIgnoreList;
+        console.log(ignoreList, 'after deletion');
+
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+      //add confimation msg
 
     } else {
       
