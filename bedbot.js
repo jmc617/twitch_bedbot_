@@ -36,7 +36,8 @@ const client = new tmi.Client({
 		password: token
 	},
 	channels: [ 'jesskidding617', 'bedbot_'
-  , 'shellieface' 
+  // , 'shellieface' 
+
   ]
 });
 
@@ -135,7 +136,7 @@ client.on('message', (channel, tags, message, self) => {
       msgLimit = r.random(msgLimitRangeArr);
 
       
-    } else if (message.toLowerCase() === '!ignore' ) {
+    } else if (message.toLowerCase() === '!ignore' && !ignoreList.some(user => user.id == tags['user-id'] )) {
 
       user = tags['display-name']
       id = tags['user-id']
@@ -146,7 +147,7 @@ client.on('message', (channel, tags, message, self) => {
 
       //add confimation msg
 
-    } else if (message.toLowerCase() === '!unignore' ) {
+    } else if (message.toLowerCase() === '!unignore' && ignoreList.some(user => user.id == tags['user-id'] )) {
 
       id = tags['user-id']
       
