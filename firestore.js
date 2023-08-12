@@ -1,5 +1,5 @@
 const { initializeApp } = require('firebase/app')
-const { getFirestore, setDoc, doc, deleteDoc } = require('firebase/firestore');
+const { getFirestore, setDoc, doc, getDocs, deleteDoc, collection } = require('firebase/firestore');
 
 const firebaseApp = initializeApp({
     apiKey: "AIzaSyAPh4N9kRH9ggF-mewMKlbJxvxjppUfwcY",
@@ -12,6 +12,32 @@ const firebaseApp = initializeApp({
   })
   
 const db = getFirestore(firebaseApp);
+
+exports.getAllIgnoredUsers = async function (dataArray) {
+
+  const colRef = collection(db, "users");
+
+  try {
+
+    const docsSnap = await getDocs(colRef);
+
+    if(docsSnap.docs.length > 0) {
+       docsSnap.forEach(doc => {
+
+          dataArray.push({
+    
+            id: parseInt(doc.id),
+            username: doc.data().name
+
+          })
+       })
+       console.log(dataArray);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+}
   
 exports.addUsertoIgnoreList = async function (name, id, listName) {
 

@@ -43,8 +43,12 @@ const client = new tmi.Client({
 
 
 client.connect().catch(console.error);
+
 client.on('connected', () => {
+  
   console.log('Bedbot is connected to Twitch')
+  fs.getAllIgnoredUsers(ignoreList);
+
 });
 
 // //ping test after connected to twitch
