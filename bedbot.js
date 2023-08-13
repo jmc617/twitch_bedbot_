@@ -58,13 +58,7 @@ client.on('connected', () => {
 //         setTimeout(pingLoop, 200);
 // }
 
-//TODO: create, delete, and read actions for ignore db
-//add user to ignore array and database
-//remove user from array and database
-//on startup, retrieve list of ignored users and insert into ignore array
-//in message listener, if !ignore, then add to list
-// if !bedme remove from list
-//add condition that message sender is not in array
+
 
 //if raid occurs, pause bedbot for 5 minutes
 client.on("raided", (channel, username, viewers) => {
@@ -115,7 +109,7 @@ client.on('message', (channel, tags, message, self) => {
       console.log(error);
     });
 
-    //add confimation msg
+
 
   //else if the user is not on the ignore list, bot is not paused, message is not from the bot, is not longer than 140 characters and does not contain a url...
   } else if ( !ignoreList.some(user => user.id == tags['user-id']) && !paused && !self && message.length < 140 && !linkRegex.test(message)) {
