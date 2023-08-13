@@ -31,7 +31,6 @@ exports.getAllIgnoredUsers = async function (dataArray) {
 
           })
        })
-       console.log(dataArray);
     }
   } catch (error) {
     console.log(error);
@@ -58,7 +57,6 @@ exports.addUsertoIgnoreList = async function (name, id, listName) {
         username: name         
       });
 
-      console.log(ignoreList);
     })
     .catch(error => {
       console.log(error);
