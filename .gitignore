@@ -2,3 +2,5 @@
 .env
 # Dependency directory
 node_modules/
+
+firebaseinfo.md

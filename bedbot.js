@@ -1,7 +1,9 @@
 require('dotenv').config()
 const tmi = require('tmi.js');
 const sleep = require('sleep-promise');
-//35
+const fs = require('./firestore');
+const u = require('./utils');
+
 let msgLimit = 35;
 let msgCount = 0;
 const msgLimitRangeArr = [35,36,37,38,39,40];
@@ -16,8 +18,6 @@ const pauseSleepInt = 300000;
 let specialReactionPaused = false;
 const specialReactionInt = 300000;
 let ignoreList = [];
-
-// emotes shelli7Brows shelli7Wink shelli7Smirk
 
 //twitch credentials
 const botUsername = process.env.TWITCH_BOT_USERNAME
@@ -37,13 +37,18 @@ const client = new tmi.Client({
 	},
 	channels: [ 'jesskidding617', 'bedbot_'
   , 'shellieface' 
+
   ]
 });
 
 
 client.connect().catch(console.error);
+
 client.on('connected', () => {
+  
   console.log('Bedbot is connected to Twitch')
+  fs.getAllIgnoredUsers(ignoreList);
+
 });
 
 // //ping test after connected to twitch
@@ -53,38 +58,24 @@ client.on('connected', () => {
 //         setTimeout(pingLoop, 200);
 // }
 
-//TODO: create, delete, and read actions for ignore db
-//add user to ignore array and database
-//remove user from array and database
-//on startup, retrieve list of ignored users and insert into ignore array
-//in message listener, if !ignore, then add to list
-// if !bedme remove from list
-//add condition that message sender is not in array
 
-function random(options)
-{
-  
-return options[Math.floor(Math.random()*options.length)];
-     
-}
 
 //if raid occurs, pause bedbot for 5 minutes
 client.on("raided", (channel, username, viewers) => {
   
-  console.log("raid")
   paused = true;
   sleep(raidSleepInt).then(()=> {
+
     paused = false;
-    console.log(`timer ended`);
 
   });
   
 });
 
 client.on("cheer", (channel, tags, message) => {
-  console.log(`bits sent`);
+
   if (tags.bits === '122'){
-    console.log(`122 "I want you" bitties recieved!`)
+
     client.say(channel, `/me smacks @${tags['display-name']}'s booty shelli7Smirk`).catch(console.error);
 
   }
@@ -98,28 +89,49 @@ client.on('message', (channel, tags, message, self) => {
 // test and regex info: https://careerkarma.com/blog/javascript-string-contains/ https://www.cluemediator.com/find-urls-in-string-and-make-a-link-using-javascript
 
   
-  
+    if (message.toLowerCase() === '!unignore' && ignoreList.some(user => user.id == tags['user-id'] )) {
 
-  //if the bot is not paused, message is not from the bot, is not longer than 140 characters and does not contain a url...
-  if( !paused && !self && message.length < 140 && !linkRegex.test(message)) {
+    id = tags['user-id']
+    
+    fs.removeUserFromIgnoreList( id )
+    .then(() => {
+
+      const newIgnoreList = ignoreList.filter(user => {
+        return user.id !== parseInt(id) ;
+      });
+
+      ignoreList = newIgnoreList;
+ 
+      client.say(channel, `I missed you @${tags['display-name']} shelli7Shy`).catch(console.error);
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+
+
+  //else if the user is not on the ignore list, bot is not paused, message is not from the bot, is not longer than 140 characters and does not contain a url...
+  } else if ( !ignoreList.some(user => user.id == tags['user-id']) && !paused && !self && message.length < 140 && !linkRegex.test(message)) {
 
     if ( message.toLowerCase() === '!pause' ) {
 
       paused = true;
-      console.log('paused');
+
       sleep(pauseSleepInt).then(()=> {
         paused = false;
-        console.log(`timer ended`);
+
         client.say(channel, `I'm back! shelli7Smirk`).catch(console.error);
       });
 
     } else if (tags['display-name'] === 'SamateurHour' && specialReactionPaused === false && bedbotRegex.test(message)) {
-      console.log('S detected')
+
       client.say(channel, `Hi Sam, shelli7Shy I love you`).catch(console.error);
       specialReactionPaused = true;
       sleep(specialReactionInt).then(()=> {
+
         specialReactionPaused = false;
-        console.log(`timer ended, ready for more special reactions`);
+
         
       });
 
@@ -133,14 +145,22 @@ client.on('message', (channel, tags, message, self) => {
       client.say(channel, `just doing my job ;-)`).catch(console.error);
       // console.log('bed yes command detected') 
 
+    } else if (message.toLowerCase() === '!ignore' && !ignoreList.some(user => user.id == tags['user-id'] )) {
+
+      user = tags['display-name']
+      id = tags['user-id']
+
+      fs.addUsertoIgnoreList(user, id, ignoreList);
+
+      client.say(channel, `I'll miss you @${tags['display-name']} shelli7Sadgers`).catch(console.error);
+
     } else if ( msgCount >= msgLimit ) {
      
       client.say(channel, `${message} ${insertedMsg}`).catch(console.error);
       msgCount = 0;
       //set msg limit to random num in array to prevent folks from spamming/counting
-      msgLimit = random(msgLimitRangeArr);
+      msgLimit = u.random(msgLimitRangeArr); 
 
-      
     } else {
       
       msgCount++;
