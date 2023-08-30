@@ -7,6 +7,7 @@ const u = require('./utils');
 let msgLimit = 35;
 let msgCount = 0;
 const msgLimitRangeArr = [35,36,37,38,39,40];
+const mentionReactionArr = ['just doing my job shelli7Smirk', 'shelli7Smirk', 'shelli7Sip'];
 const insertedMsg = '...in bed shelli7Smirk'
 const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
 const bedbotRegex = /(.*bedbot.*)/ig
