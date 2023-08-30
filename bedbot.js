@@ -7,17 +7,23 @@ const u = require('./utils');
 let msgLimit = 35;
 let msgCount = 0;
 const msgLimitRangeArr = [35,36,37,38,39,40];
-const mentionReactionArr = ['just doing my job shelli7Smirk', 'shelli7Smirk', 'shelli7Sip'];
 const insertedMsg = '...in bed shelli7Smirk'
 const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
 const bedbotRegex = /(.*bedbot.*)/ig
+
+const mentionReactionArr = ['shelli7Uwu', 'shelli7Smirk', 'shelli7Chat'];
+//15 minute pause interval
+const mentionReactionInt = 900000;
+let mentionReactionPaused = false;
+
+//5 minutes pause intervals
 let paused = false;
-//5 minutes pause
 const raidSleepInt = 300000;
 const pauseSleepInt = 300000;
 
 let specialReactionPaused = false;
 const specialReactionInt = 300000;
+
 let ignoreList = [];
 
 //twitch credentials
@@ -136,15 +142,16 @@ client.on('message', (channel, tags, message, self) => {
         
       });
 
-    } else if ( message.toLowerCase() === 'bedbot no!' || message.toLowerCase() === '@bedbot_ no!' ) {
+    } else if ( !mentionReactionPaused && bedbotRegex.test(message) ) {
 
-      client.say(channel, `no regrets ;-)`).catch(console.error);
-      // console.log('bed no command detected')
+      client.say(channel, `${u.random(mentionReactionArr)} @${tags['display-name']}`).catch(console.error);
+      mentionReactionPaused = true;
+      sleep(mentionReactionInt).then(()=> {
 
-    } else if ( message.toLowerCase() === 'bedbot yes!' || message.toLowerCase() === '@bedbot_ yes!' ) {
+        mentionReactionPaused = false;
 
-      client.say(channel, `just doing my job ;-)`).catch(console.error);
-      // console.log('bed yes command detected') 
+        
+      });
 
     } else if (message.toLowerCase() === '!ignore' && !ignoreList.some(user => user.id == tags['user-id'] )) {
 
