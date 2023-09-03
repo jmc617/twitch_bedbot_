@@ -1,5 +1,7 @@
-const { initializeApp } = require('firebase/app')
-const { getFirestore, setDoc, doc, getDocs, deleteDoc, collection } = require('firebase/firestore');
+const { initializeApp } = require('firebase-admin/app');
+// const { initializeApp } = require('firebase/app')
+// const { getFirestore, setDoc, doc, getDocs, deleteDoc, collection } = require('firebase/firestore');
+const Firestore = require('@google-cloud/firestore');
 
 const firebaseApp = initializeApp({
     apiKey: "AIzaSyAPh4N9kRH9ggF-mewMKlbJxvxjppUfwcY",
@@ -11,19 +13,26 @@ const firebaseApp = initializeApp({
     measurementId: "G-PR5WDYB0PN"
   })
   
-const db = getFirestore(firebaseApp);
+// const db = getFirestore(firebaseApp);
+
+const db = new Firestore({
+  projectId: 'twitch-bedbot',
+  keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+});
 
 exports.getAllIgnoredUsers = async function (dataArray) {
 
-  const colRef = collection(db, "users");
+  // const colRef = collection(db, "users");
 
   try {
 
-    const docsSnap = await getDocs(colRef);
+    // const docsSnap = await getDocs(colRef);
+    const docsSnap = await db.collection('users').get();
+
 
     if(docsSnap.docs.length > 0) {
        docsSnap.forEach(doc => {
-
+          console.log(doc.id);
           dataArray.push({
     
             id: parseInt(doc.id),
@@ -42,13 +51,19 @@ exports.addUsertoIgnoreList = async function (name, id, listName) {
 
   const ignoreList = listName;
 
-  const docRef = doc(db, "users", id);
+  // const docRef = doc(db, "users", id);
+  const docRef = db.collection('users').doc(id);
 
   let data = {
     name: name
   }
   
-  setDoc(docRef, data)
+
+  await docRef.set({
+    data
+  })
+
+  // setDoc(docRef, data)
     .then((docRef) => {
       console.log(`Document has been added successfully.`);
 
