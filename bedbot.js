@@ -11,7 +11,17 @@ const insertedMsg = '...in bed shelli7Smirk'
 const linkRegex = /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#.]?[\w-]+)*\/?/
 const bedbotRegex = /(.*bedbot.*)/ig
 
-const mentionReactionArr = ['shelli7Uwu', 'shelli7Smirk', 'shelli7Chat'];
+const mentionReactionArr = [ 
+  'shelli7Smirk', 
+  'shelli7Chat',
+  'shelli7Shy',
+  'shelli7Brows', 
+  'you rang? shelli7Smirk', 
+  'Whatchu talkin bout Willis? shelli7Brows', 
+  'I like it when you say my name. Please say it again. shelli7Smirk',
+  "It's Mr.Bedbot to you shelli7Smirk",
+  'At your service shelli7Brows'
+];
 //15 minute pause interval
 const mentionReactionInt = 900000;
 let mentionReactionPaused = false;
