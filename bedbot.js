@@ -22,6 +22,14 @@ const mentionReactionArr = [
   "It's Mr.Bedbot to you shelli7Smirk",
   'At your service shelli7Brows'
 ];
+
+const mentionReactionBotIgnoreArr = [
+  'botxface',
+  'dixperbro',
+  'fourthwallhq',
+  'sery_bot'
+]
+
 //15 minute pause interval
 const mentionReactionInt = 900000;
 let mentionReactionPaused = false;
