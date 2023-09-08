@@ -22,6 +22,14 @@ const mentionReactionArr = [
   "It's Mr.Bedbot to you shelli7Smirk",
   'At your service shelli7Brows'
 ];
+
+const mentionReactionBotIgnoreArr = [
+  'botxface',
+  'dixperbro',
+  'fourthwallhq',
+  'sery_bot'
+]
+
 //15 minute pause interval
 const mentionReactionInt = 900000;
 let mentionReactionPaused = false;
@@ -152,7 +160,7 @@ client.on('message', (channel, tags, message, self) => {
         
       });
 
-    } else if ( !mentionReactionPaused && bedbotRegex.test(message) ) {
+    } else if ( !mentionReactionPaused && bedbotRegex.test(message) && !mentionReactionBotIgnoreArr.some(bot => bot == tags['user-id'])) {
 
       client.say(channel, `${u.random(mentionReactionArr)} @${tags['display-name']}`).catch(console.error);
       mentionReactionPaused = true;
