@@ -160,7 +160,7 @@ client.on('message', (channel, tags, message, self) => {
         
       });
 
-    } else if ( !mentionReactionPaused && bedbotRegex.test(message) ) {
+    } else if ( !mentionReactionPaused && bedbotRegex.test(message) && !mentionReactionBotIgnoreArr.some(bot => bot == tags['user-id'])) {
 
       client.say(channel, `${u.random(mentionReactionArr)} @${tags['display-name']}`).catch(console.error);
       mentionReactionPaused = true;
