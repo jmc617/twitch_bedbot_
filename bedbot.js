@@ -18,8 +18,8 @@ const mentionReactionArr = [
   'shelli7Brows', 
   'you rang? shelli7Smirk', 
   'Whatchu talkin bout Willis? shelli7Brows', 
-  'I like it when you say my name. Please say it again. shelli7Smirk',
-  "It's Mr.Bedbot to you shelli7Smirk",
+  'I like it when you say my name. shelli7Smirk',
+  "It's Mr. Bedbot to you shelli7Smirk",
   'At your service shelli7Brows'
 ];
 
