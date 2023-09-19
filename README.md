@@ -3,11 +3,15 @@
 [Twitch](https://www.twitch.tv/) chatbot client created using [Tmi.js](https://tmijs.com/). Listens to chat and re-sends user messages with a humorous ending at set intervals. 
 Created as a gift for [Shellieface](https://www.twitch.tv/shellieface). Will be updated to use the [bedbot API](https://github.com/jmc617/bedbot-api) to save user data and join multiple chat streams.
 
-## Screenshots
+## Functions
 
 <img src="https://user-images.githubusercontent.com/38439541/177021310-71d357c4-2d1f-4f0a-b9fe-2fb626a799d6.png" 
      alt="screenshot of two twitch messages, one from a chatter and one from the bot. The chatter says 'happy little accidents' and 'the bot replies, 'happy little accidents ...in bed ;-)'" 
      width=50%></img>
+
+
+![bedbot_triggers_2 (2)](https://github.com/jmc617/twitch_bedbot_/assets/38439541/e4a38db4-893c-41bd-9fd1-b885808716cd)
+
      
 ## Getting Started
 
