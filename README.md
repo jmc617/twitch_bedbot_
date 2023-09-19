@@ -18,6 +18,9 @@ Created as a gift for [Shellieface](https://www.twitch.tv/shellieface). Will be 
 ### Dependencies
 - [tmi.js](https://www.npmjs.com/package/tmi.js)
 - [dotenv](https://www.npmjs.com/package/dotenv)
+- [@google-cloud/firestore](https://www.npmjs.com/package/@google-cloud/firestore)
+- [sleep-promise](https://www.npmjs.com/package/sleep-promise)
+
 
 ### Installing & Running in Development Environment
 
