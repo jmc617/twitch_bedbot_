@@ -34,7 +34,8 @@ npm init
 npm i tmi.js dotenv
 ```
 4. Create twitch account for your bot at [twitch.tv](https://www.twitch.tv/) and then create the .env file with twitch bot credentials (``TWITCH_BOT_USERNAME`` and ``TWITCH_OAUTH_TOKEN``) more information can be found here: [Twitch Developer Authentication docs](https://dev.twitch.tv/docs/authentication)
-5. Change channels to connect bot to in the ``channels`` property in the ``client`` variable.
+5. Create Google Admin credentials for Firebase/Firestore and add route to ___ variable in .env file. (insert websites)
+6. Change channels to connect bot to in the ``channels`` property in the ``client`` variable.
 5. Launch app on localhost
 ```
 npm start
